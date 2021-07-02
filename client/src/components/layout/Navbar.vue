@@ -1,5 +1,5 @@
 <template>
-  <nav calss="navbar is-dark">
+  <nav class="navbar is-dark">
     <div class="navbar-brand">
       <router-link to="/" class="navbar-item">
         <strong>Ganar CRM</strong>
