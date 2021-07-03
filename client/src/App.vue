@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Navbar from "@/components/layout/Navbar";
 
 export default {
@@ -20,10 +21,10 @@ export default {
     this.$store.commit("initializeStore");
 
     if (this.$store.state.token) {
-      axios.defaults.header.common["Authorization"] =
+      axios.defaults.headers.common["Authorization"] =
         "Token" + this.$store.state.token;
     } else {
-      axios.defaults.header.common["Authorization"] = "";
+      axios.defaults.headers.common["Authorization"] = "";
     }
   },
 };
