@@ -76,8 +76,6 @@ export default {
   },
   methods: {
     async formSubmit() {
-      this.$store.commit("setIsLoading", true);
-
       this.errors = [];
 
       if (this.username === "") {
@@ -93,6 +91,7 @@ export default {
       }
 
       if (!this.errors.length) {
+        this.$store.commit("setIsLoading", true);
         const formData = {
           username: this.username,
           password: this.password1,
