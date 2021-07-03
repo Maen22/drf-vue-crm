@@ -75,7 +75,9 @@ export default {
     };
   },
   methods: {
-    formSubmit() {
+    async formSubmit() {
+      this.$store.commit("setIsLoading", true);
+
       this.errors = [];
 
       if (this.username === "") {
@@ -96,7 +98,7 @@ export default {
           password: this.password1,
         };
 
-        axios
+        await axios
           .post("api/v1/users/", formData)
           .then(() => {
             toast({
@@ -119,6 +121,8 @@ export default {
               this.errors.push("Something went wrong, please try again!");
             }
           });
+
+        this.$store.commit("setIsLoading", false);
       }
     },
   },
