@@ -61,35 +61,66 @@
 </template>
 
 <script>
-// import axios from 'axios'
-// import { toast } from 'bulma-toast'
+import axios from "axios";
+import { toast } from "bulma-toast";
 
 export default {
-  name: 'SignUp',
+  name: "SignUp",
   data() {
     return {
-      username: '',
-      password1: '',
-      password2: '',
+      username: "",
+      password1: "",
+      password2: "",
       errors: [],
-    }
+    };
   },
   methods: {
     formSubmit() {
-      this.errors = []
+      this.errors = [];
 
-      if (this.username === '') {
-        this.errors.push('the username is missing.')
+      if (this.username === "") {
+        this.errors.push("the username is missing.");
       }
 
-      if (this.password1 === '') {
-        this.errors.push('the password is too short.')
+      if (this.password1 === "") {
+        this.errors.push("the password is too short.");
       }
 
       if (this.password1 !== this.password2) {
-        this.errors.push('the passwords are not mathching.')
+        this.errors.push("the passwords are not mathching.");
+      }
+
+      if (!this.errors.length) {
+        const formData = {
+          username: this.username,
+          password: this.password1,
+        };
+
+        axios
+          .post("api/v1/users/", formData)
+          .then(() => {
+            toast({
+              message: "Account was created, please log in",
+              type: "is-success",
+              dismissible: true,
+              pauseOnHover: true,
+              duration: 2000,
+              position: "bottom-right",
+            });
+
+            this.$router.push("/log-in");
+          })
+          .catch((err) => {
+            if (err.response) {
+              for (const property in err.response.data) {
+                this.errors.push(`${property}: ${err.response.data[property]}`);
+              }
+            } else if (err.message) {
+              this.errors.push("Something went wrong, please try again!");
+            }
+          });
       }
     },
   },
-}
+};
 </script>
